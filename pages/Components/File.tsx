@@ -57,7 +57,7 @@ const addImage = (img: any) => {
   img1.className = "image";
   div.appendChild(img1);
   var container1 = document.getElementsByClassName("container")[0];
-  handleSubmit(img);
+  handleSubmit(img1);
   container1.appendChild(img1);
 };
 
@@ -73,16 +73,28 @@ const handleSelectedFile = () => {
     }
   });
 };
-const handleSubmit = async (file) => {
+const handleSubmit = async (file: any) => {
   const filename = file.name;
-  console.log(supabase);
+  console.log("Name: " + file.name);
   const { data, error } = await supabase.storage
-    .from("gallery")
-    .upload(filename, file, {
-      cacheControl: "3600",
-      upsert: false,
-    });
+    .from("galley")
+    .upload("public/test.jpg", file);
   //const filepath = data.path;
   console.log(data);
   // save filepath in database
 };
+async function uploadImage(file: any) {
+  const { data, error } = await supabase.storage
+    .from("galley")
+    .upload("public/avatar1.png", file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+  /*const { data, error } = await supabase.storage
+    .from("galley")
+    .upload("uuidv4()", file);
+
+  if (data) {
+    console.log(data);
+  }*/
+}
